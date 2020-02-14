@@ -330,7 +330,6 @@
 	</form>
 
 	</body>
-	
 
 	<?php
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -456,16 +455,12 @@ function connect(){
 	$GYearGraduated= $_POST['ggraduated'];
 	$GScholarshipHonor= $_POST['gscholarship'];
 	
-	
-	
-	
-	
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	
 	if(mysqli_connect_error())
 		die("Connection failed".mysqli_connect_error());
 	
-	$sql = "INSERT INTO list VALUES ( 
+	$sql1 = "INSERT INTO list VALUES ( 
 									'$Surname',
 									'$Firstname',
 									'$Middlename',
@@ -542,7 +537,10 @@ function connect(){
 									'$MMaidenname',
 									'$MSurname',
 									'$MFirstname',
-									'$MMiddlename',
+									'$MMiddlename'								
+									)";
+		$sql2 = "INSERT INTO education VALUES ( 
+									'$TIN',
 									'$ENameOfSchool',
 									'$EBasic',
 									'$EPeriodFrom',
@@ -576,11 +574,13 @@ function connect(){
 									'$GPeriodFrom',
 									'$GPeriodTo',
 									'$GHighestLevel',
-									'$GYearGraduated',
-									'$GScholarshipHonor'
-																		
+									'$GYearGraduated'						
 									)";
-	if($conn->query($sql) === TRUE){
+		$sql3 = "INSERT INTO scholarship VALUES ( 
+									'$TIN',
+									'$GScholarshipHonor'
+									)";
+	if($conn->query($sql1) === TRUE && $conn->query($sql2) === TRUE && $conn->query($sql3) === TRUE){
 		header("Location: Lab01_Display.php");
 		echo "<script> alert('Submitted Successfully!')</script>";
 	}
