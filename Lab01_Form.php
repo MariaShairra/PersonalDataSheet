@@ -158,7 +158,7 @@
 				<fieldset> 11. PAG-IBIG ID NO. <input type="text" name="pag-ibig" style="width:385px"><br> </fieldset>
 				<fieldset> 12. PHILHEALTH ID NO. <input type="text" name="phil" style="width:355px"><br> </fieldset>
 				<fieldset> 13. SSS NO.&emsp;&emsp;&emsp;&emsp;<input type="text" name="sss" style="width:378px"><br> </fieldset>
-				<fieldset> 14. TIN NO.&emsp;&emsp;&emsp;&emsp;<input type="text" name="tin" style="width:380px"><br> </fieldset>
+				<fieldset> 14. TIN NO.&emsp;&emsp;&emsp;&emsp;<input type="text" name="tin" style="width:380px" required =""><br> </fieldset>
 				<fieldset> 15. AGENCY EMPLOYEE NO. <input type="text" name="agency" style="width:320px"></fieldset> </p>
 			</div>
 			<div style="flex: 33.33%; ">
@@ -330,7 +330,6 @@
 	</form>
 
 	</body>
-	
 
 	<?php
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -456,16 +455,12 @@ function connect(){
 	$GYearGraduated= $_POST['ggraduated'];
 	$GScholarshipHonor= $_POST['gscholarship'];
 	
-	
-	
-	
-	
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	
 	if(mysqli_connect_error())
 		die("Connection failed".mysqli_connect_error());
 	
-	$sql = "INSERT INTO list VALUES ( 
+	$sql1 = "INSERT INTO list VALUES ( 
 									'$Surname',
 									'$Firstname',
 									'$Middlename',
@@ -542,7 +537,10 @@ function connect(){
 									'$MMaidenname',
 									'$MSurname',
 									'$MFirstname',
-									'$MMiddlename',
+									'$MMiddlename'								
+									)";
+		$sql2 = "INSERT INTO education VALUES ( 
+									'$TIN',
 									'$ENameOfSchool',
 									'$EBasic',
 									'$EPeriodFrom',
@@ -576,11 +574,13 @@ function connect(){
 									'$GPeriodFrom',
 									'$GPeriodTo',
 									'$GHighestLevel',
-									'$GYearGraduated',
-									'$GScholarshipHonor'
-																		
+									'$GYearGraduated'						
 									)";
-	if($conn->query($sql) === TRUE){
+		$sql3 = "INSERT INTO scholarship VALUES ( 
+									'$TIN',
+									'$GScholarshipHonor'
+									)";
+	if($conn->query($sql1) === TRUE && $conn->query($sql2) === TRUE && $conn->query($sql3) === TRUE){
 		header("Location: Lab01_Display.php");
 		echo "<script> alert('Submitted Successfully!')</script>";
 	}
